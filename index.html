@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<link rel="stylesheet" href="./main.css">
+</head>
+<body>
+	
+	<div class="org-section-profile__EditMyProfile">
+	<h2 class="atm-title_Underline-highlighted ">Editar perfil</h2>	
+	<div class="information-header fz-0">
+
+		<div class="input-item-information d-ib-two" data-number="">
+	<label class="information-label" for="uid">
+		
+	</label>
+	<input class="information-input" type="hidden" placeholder="" name="uid" id="uid" value="27" readonly="'readonly'">
+	
+</div>
+		<div class="input-item-information d-ib-two" data-number="">
+	<label class="information-label" for="sid">
+		
+	</label>
+	<input class="information-input" type="hidden" placeholder="" name="sid" id="sid" value="7k-5-d9j0KStUChLhSr3peJsQPsnl6YIk8SDHC7Bmnc" readonly="'readonly'">
+	
+</div>														
+
+		<div class="item-information d-ib-two">
+	<h3 class="label">Alias</h3>
+	<span class="text">marco.torres</span>
+</div>
+		<div class="item-information d-ib-two">
+	<h3 class="label">Correo</h3>
+	<span class="text">marco.torres@glr.pe</span>
+</div>
+		<div class="item-information d-ib-two">
+	<h3 class="label">Nombres</h3>
+	<span class="text">Marco</span>
+</div>	
+															
+		<div class="item-information d-ib-two">
+	<h3 class="label">Apellidos</h3>
+	<span class="text">Torres</span>
+</div>																																			
+
+	</div>
+
+	<form action="http://qaintranet.glr.pe/api/user/update" method="post">
+		<div class="information-body">
+			<h2 class="atm-title_Underline-highlighted ">Datos</h2>			<div class="information-profile fz-0">
+				<div class="input-item-information d-ib-two" data-number="">
+	<label class="information-label" for="pass">
+		Clave
+	</label>
+	<input class="information-input" type="password" placeholder="Clave" name="pass" id="pass" value="">
+	
+</div>			<div class="input-item-information d-ib-two" data-number="">
+	<label class="information-label" for="pass_confirmation">
+		Repetir Clave
+	</label>
+	<input class="information-input" type="password" placeholder="Repetir Clave" name="pass_confirmation" id="pass_confirmation" value="">
+	
+</div>
+			<div class="input-item-information d-ib-two" data-number="">
+	<label class="information-label" for="user_email">
+		Correo personal
+	</label>
+	<input class="information-input" type="text" placeholder="Correo personal" name="user_email" id="user_email" value="">
+	
+</div>
+			<div class="input-item-information d-ib-two" data-number="">
+	<label class="information-label" for="user_cell_phone">
+		Celular
+	</label>
+	<input class="information-input" type="text" placeholder="Celular" name="user_cell_phone" id="user_cell_phone" value="">
+	
+</div>			
+
+			<div class="input-item-information d-ib-two" data-number="">
+	<label class="information-label" for="user_address">
+		Direccion
+	</label>
+	<input class="information-input" type="text" placeholder="Direccion" name="user_address" id="user_address" value="">
+	
+</div>																												
+
+			<div class="input-item-information d-ib-two" data-number="">
+	<label class="information-label" for="company_phone">
+		Telefono Compañia
+	</label>
+	<input class="information-input" type="text" placeholder="Telefono Compañia" name="company_phone" id="company_phone" value="">
+	
+</div>
+
+			<div class="input-item-information d-ib-two" data-number="">
+	<label class="information-label" for="user_body">
+		Descripcion / Comentarios
+	</label>
+	<input class="information-input" type="text" placeholder="Descripcion / Comentarios" name="user_body" id="user_body" value="">
+	
+</div>																													
+			</div>
+		</div>
+
+		<div class="information-body" id="information-body-academic">
+			<h2 class="atm-title_Underline-highlighted ">Datos Académicos</h2>																<div class="information-career fz-0" data-number="1">
+
+					<div class="input-item-information d-ib-two" data-number="1">
+	<label class="information-label" for="institucion-1">
+		Institución
+	</label>
+	<input class="information-input" type="text" placeholder="Institución" name="institucion-1" id="institucion-1" value="administracion">
+	
+</div>	
+
+					<div class="input-item-information d-ib-two" data-number="1">
+	<label class="information-label" for="grado-1">
+		Grado
+	</label>
+	<input class="information-input" type="text" placeholder="Grado" name="grado-1" id="grado-1" value="Grado académico 1">
+	
+</div>	
+
+					<div class="input-item-information d-ib-two" data-number="1">
+	<label class="information-label" for="carrera-1">
+		Carrera
+	</label>
+	<input class="information-input" type="text" placeholder="Carrera" name="carrera-1" id="carrera-1" value="Carrera 1">
+	
+</div>	
+
+					<div class="input-item-information d-ib-two" data-number="1">
+	<label class="information-label" for="anio-1">
+		Año de Egreso
+	</label>
+	<input class="information-input" type="text" placeholder="Año de Egreso" name="anio-1" id="anio-1" value="2012">
+	
+</div>	
+
+					
+										</div>
+					<span class="hr"></span>	
+									<div class="information-career fz-0" data-number="2">
+
+					<div class="input-item-information d-ib-two" data-number="2">
+	<label class="information-label" for="institucion-2">
+		Institución
+	</label>
+	<input class="information-input" type="text" placeholder="Institución" name="institucion-2" id="institucion-2" value="administracion">
+	
+</div>	
+
+					<div class="input-item-information d-ib-two" data-number="2">
+	<label class="information-label" for="grado-2">
+		Grado
+	</label>
+	<input class="information-input" type="text" placeholder="Grado" name="grado-2" id="grado-2" value="Grado académico 1">
+	
+</div>	
+
+					<div class="input-item-information d-ib-two" data-number="2">
+	<label class="information-label" for="carrera-2">
+		Carrera
+	</label>
+	<input class="information-input" type="text" placeholder="Carrera" name="carrera-2" id="carrera-2" value="Carrera 2">
+	
+</div>	
+
+					<div class="input-item-information d-ib-two" data-number="2">
+	<label class="information-label" for="anio-2">
+		Año de Egreso
+	</label>
+	<input class="information-input" type="text" placeholder="Año de Egreso" name="anio-2" id="anio-2" value="">
+	
+</div>	
+
+					
+										</div>
+					<span class="hr"></span>	
+													
+			
+		</div>		
+		<button class="atm-btn__Info btn-mini cur-p" id="appearElement" type="button" title="click para agregar otra carrera">
+	Agregar otro bloque
+</button> 
+
+		<div class="information-footer">
+		</div>
+
+		<button class="atm-btn__Primary submit mt-15 cur-p" id="sendData" type="submit">
+	Guardar
+</button>	</form>	
+
+</div>
+
+
+	<script src="./main.js"></script>
+</body>
+</html>
