@@ -2268,3 +2268,27 @@ menu {
     color: #606060;
     padding: 1.2rem 1.4rem 0.7rem;
 }
+
+.wrapper-editProfile {
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: -ms-flex;
+  display: -o-flex;
+  display: flex;
+  height: 100vh;
+}
+.org-section-profile__EditMyProfile {
+  width: 100%;
+  max-width: 600px;
+  margin: auto;
+}
+
+.input-item-information .information-input:focus {
+  border: 2px solid #2196f3;
+}
+.input-item-information .information-input.input-error {
+  border: 2px solid red;
+}
+.input-item-information .information-input.ready {
+  border: 2px solid green;
+}
