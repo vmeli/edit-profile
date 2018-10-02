@@ -41,13 +41,15 @@ function inputItemInformation(getNumberLastElement,name,text) {
 
 // VALIDATION FORM
 
-var	pass = document.getElementById('pass'),
+var	pass             = document.getElementById('pass'),
     passConfirmation = document.getElementById('pass_confirmation'),
-    userEmail = document.getElementById('user_email'),
- 	userCellPhone = document.getElementById('user_cell_phone'),
-    userAddress = document.getElementById('user_address'),
-	companyPhone = document.getElementById('company_phone'),
-    userBody = document.getElementById('user_body');
+    userEmail 		 = document.getElementById('user_email'),
+ 	userCellPhone    = document.getElementById('user_cell_phone'),
+    userAddress      = document.getElementById('user_address'),
+	companyPhone     = document.getElementById('company_phone'),
+    userBody         = document.getElementById('user_body'),
+    uid              = document.getElementById('uid').
+    sid              = document.getElementById('sid');
 
 //console.log(pass);
 var wrappeElement = document.getElementById('information-body-academic'),
@@ -110,8 +112,8 @@ function validateInputsText(e) {
 //	console.log(pass.value);
 //}
 function validateEmptyInputStatic() {
-	if( pass.value =="" || passConfirmation.value == "" || userEmail.value == "" ||
-		userCellPhone.value == "" || userAddress == "" || companyPhone == "" || userBody == "") {
+	if( pass.value.trim() =="" || passConfirmation.value.trim() == "" || userEmail.value.trim() == "" ||
+		userCellPhone.value.trim() == "" || userAddress.value.trim() == "" || companyPhone.value.trim() == "" || userBody.value.trim() == "") {
 		return false;
 	}
 	return true;
@@ -120,38 +122,61 @@ function validateEmptyInputStatic() {
 // SEND DATA FORM 
 var btnSubmit = document.getElementById('sendData'); 
 
-btnSubmit.onclick = sendMessage;
+btnSubmit.addEventListener('click', sendMessage);
+//btnSubmit.onclick = sendMessage;
 
 function sendMessage(e) {
 
 	e.preventDefault();
 	var isCorrectInputStaticDatos = validateEmptyInputStatic();
 	var isCorrectInputDinamicDatos = validateEmptyInputDinamic();
+	var isCorrectMatchPass = MatchValue(); 
+		console.log(data, isCorrectInputStaticDatos, isCorrectInputDinamicDatos, isCorrectMatchPass);
 
-	if (isCorrectInputStaticDatos == true && isCorrectInputDinamicDatos == true) {
-		var data = "ver la forma de la data";
+	if (isCorrectInputStaticDatos === true && isCorrectInputDinamicDatos === true && isCorrectMatchPass === true) {
+
+	console.log("preparando para el envío");
+		// ESTRUCTURA DE LA DATA A ENVIAR
+		var data               = {};	
+		data.uid               = uid.value.trim();
+		data.sid               = sid.value.trim();
+		data.pass              = pass.value.trim();
+		data.pass_confirmation = passConfirmation.value.trim();
+		data.personal_email    = userEmail.value.trim();
+		data.user_cell_phone   = userCellPhone.value.trim();
+		data.user_address      = userAddress.value.trim();
+		data.company_phone     = companyPhone.value.trim();
+		data.user_body         = userBody.value.trim();
+
+		var json               = JSON.stringify(data);
+
+		console.log(data);
+
 		var request = new XMLHttpRequest();
-		request.open('POST', '/editar-perfil', true);
+		request.open('POST', 'http://qaintranet.glr.pe/api/user/update', true);
 		request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
-		request.setRequestHeader('X-CSRF-Token', "POR DEFINIR");
-		request.send(data);
+		//request.setRequestHeader('X-CSRF-Token', "valor del token{{ csrf_field() }}	");
 
-		request.onreadystatechange = function() {
-            if (this.readyState === 4) {
-                if (this.status >= 200 && this.status < 400) {
-                    // Success!
-                    console.log("Success");
-        
-                } else {
-                   console.log("error");
-                }
-             }
-        };
-        
-        request = null;
+		xhr.onload = function () {
+			//console.log('entro al XMLHttpRequest');
+			var responseServer = JSON.parse(xhr.responseText);
+			if (xhr.readyState == 4 && xhr.status == "200") {
+				console.log(responseServer);
+				//var modalRegistro = document.getElementById('sucessRegister');
+				//modalRegistro.style.display = 'block';
+				//modalRegistro.classList.add('twinkle');
+				console.log('se registro !!');
+			} else {
+				//console.log("ERRORRR");
+				console.log(responseServer);
+			}
+		}
+
+		xhr.send(json);
 
 
 	}else {
+		console.log("no mandar data");
 		//message error
 	}
 
@@ -164,17 +189,20 @@ function sendMessage(e) {
 
 			setInputCareer.map((x,item) => {
 								
-				boolean = boolean && !(x.value == "");
+				boolean = boolean && !(x.value.trim() == "");
 			});
 		}else {
+			boolean = true;
 			console.log("no hay datos académicos");
 		}
 		return boolean;
 	}
 
-
-var r = validateEmptyInputDinamic();
-
-console.log(r, "resultado");
-	
+	function MatchValue() {
+		console.log(pass.value , passConfirmation.value);
+		if((pass.value.trim() !="") && (passConfirmation.value.trim() !="") && (pass.value === passConfirmation.value)) {
+			return true;
+		}
+		return false;
+	}
 }
