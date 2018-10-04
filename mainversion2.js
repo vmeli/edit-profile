@@ -15,7 +15,7 @@ function createElement() {
 		getNumberLastElement = countElementInformationCareer +1,
 		elementParent = document.createElement('div');
 		key++;
-		elementParent.setAttribute('class','information-career-n fz-0');
+		elementParent.setAttribute('class','information-career fz-0');
 		elementParent.setAttribute('id','information-career-'+'n'+key);
 		elementParent.setAttribute('data-number',key);
 		elementParent.setAttribute('data-key','n'+key);
@@ -39,9 +39,9 @@ function createElement() {
 		var selectCareer = wrapperElementInformationCareer.querySelector('#carrera-' + 'n'+ key);
 
 
-		createElementSelect(selectInstitution, dataInstitution, 'institucion-' + key);
-		createElementSelect(selectGradeAcademic, dataGradesAcademic, 'grado-' + key);
-		createElementSelect(selectCareer, dataCareer, 'carrera-' + key);	
+		createElementSelect(selectInstitution, dataSelectInstitution);
+		createElementSelect(selectGradeAcademic, dataSelectGradesAcademic);
+		createElementSelect(selectCareer, dataSelectCareer);	
 }
 
 function inputSelectItemInformation(NumberElement,name,text) {
@@ -77,13 +77,13 @@ var	pass             = document.getElementById('pass'),
     sid              = document.getElementById('sid');
 
 var wrappeElement = document.getElementById('information-body-academic'),
-	setElementInformationCareer = wrappeElement.querySelectorAll('[class^="information-career"]'), 
+	setElementInformationCareer = wrappeElement.querySelectorAll('.information-career'),
 	countElementInformationCareer = setElementInformationCareer.length;
 
-	userCellPhone.oninput = validateInputsNumber;
-	companyPhone.oninput  = validateInputsNumber;
-	userEmail.oninput     = validateInputEmail;
-	//pass.oninput          = validatePassToPassConfirmation;
+userCellPhone.oninput = validateInputsNumber;
+companyPhone.oninput  = validateInputsNumber;
+userEmail.oninput     = validateInputEmail;
+//pass.oninput          = validatePassToPassConfirmation;
 
 
 if(countElementInformationCareer) {
@@ -143,24 +143,6 @@ function validateEmptyInputStatic() {
 	return true;
 }
 
-function validateEmptyInputYearGraduate() {
-	if(countElementInformationCareer) {
-			
-			var setInputCareer = Array.from(document.querySelectorAll('[class^="information-career"] input'));
-			
-			var boolean = true;
-
-			setInputCareer.map((x) => {
-				boolean = boolean && !(x.value.trim() == "");
-			});
-
-		}else {
-			boolean = false;
-			console.log("no hay datos académicos");
-		}
-		return boolean;
-}
-
 // SEND DATA FORM 
 var btnSubmit = document.getElementById('sendData'); 
 
@@ -170,22 +152,12 @@ btnSubmit.addEventListener('click', sendMessage);
 function sendMessage(e) {
 
 	e.preventDefault();
-	var isCorrectInputStaticDatos  = validateEmptyInputStatic();
+	var isCorrectInputStaticDatos = validateEmptyInputStatic();
 	var isCorrectInputDinamicDatos = validateEmptyInputDinamic();
-	var isCorrectInputYearGraduate = validateEmptyInputYearGraduate();
-	var isCorrectMatchPass         = MatchValue();
+	var isCorrectMatchPass = MatchValue(); 
+		console.log(data, isCorrectInputStaticDatos, isCorrectInputDinamicDatos, isCorrectMatchPass);
 
-	var inputCareerStatic          = Array.from(document.querySelectorAll(".information-career-f"));
-	var inputCareerDinamic         = Array.from(document.querySelectorAll(".information-career-n"));
-
-	var lengthInputCareerStatic    = inputCareerStatic.length; 
-	var lengthInputCareerDinamic   = inputCareerDinamic.length;
-
-	console.log(lengthInputCareerStatic, lengthInputCareerDinamic);
-
-	console.log(data, isCorrectInputStaticDatos, isCorrectInputYearGraduate, isCorrectMatchPass);
-
-	if (isCorrectInputStaticDatos === true && isCorrectInputYearGraduate === true && isCorrectMatchPass === true) {
+	if (isCorrectInputStaticDatos === true && isCorrectInputDinamicDatos === true && isCorrectMatchPass === true) {
 
 	console.log("preparando para el envío");
 		// ESTRUCTURA DE LA DATA A ENVIAR
@@ -200,35 +172,6 @@ function sendMessage(e) {
 		data.company_phone     = companyPhone.value.trim();
 		data.user_body         = userBody.value.trim();
 
-		if(lengthInputCareerStatic || lengthInputCareerDinamic) {
-			data.data_academic = {};
-		}		
-
-		if(lengthInputCareerStatic) {
-			inputCareerStatic.map(function(x,item) {
-				var keyCareer = x.getAttribute("data-key");
-				data.data_academic[keyCareer] = [];
-				data.data_academic[keyCareer]["institution"] = x.querySelector('[name^="institucion"]').value;
-				data.data_academic[keyCareer]["grade"]       = x.querySelector('[name^="grado"]').value;
-				data.data_academic[keyCareer]["career"]      = x.querySelector('[name^="carrera"]').value;
-				data.data_academic[keyCareer]["senior_year"] = x.querySelector('[name^="anio"]').value;
-				console.log(data);
-			});
-		}
-
-		if(lengthInputCareerDinamic) {
-			inputCareerDinamic.map(function(x,item) {
-				var keyCareer = x.getAttribute("data-key");
-				data.data_academic[keyCareer] = [];
-				data.data_academic[keyCareer]["institution"] = x.querySelector('[name^="institucion"]').value;
-				data.data_academic[keyCareer]["grade"]       = x.querySelector('[name^="grado"]').value;
-				data.data_academic[keyCareer]["career"]      = x.querySelector('[name^="carrera"]').value;
-				data.data_academic[keyCareer]["senior_year"] = x.querySelector('[name^="anio"]').value;
-				console.log(data);
-			});
-		}
-
-
 		var json               = JSON.stringify(data);
 
 		console.log(data);
@@ -238,10 +181,10 @@ function sendMessage(e) {
 		request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
 		//request.setRequestHeader('X-CSRF-Token', "valor del token{{ csrf_field() }}	");
 
-		request.onload = function () {
+		xhr.onload = function () {
 			//console.log('entro al XMLHttpRequest');
-			var responseServer = JSON.parse(request.responseText);
-			if (request.readyState == 4 && request.status == "200") {
+			var responseServer = JSON.parse(xhr.responseText);
+			if (xhr.readyState == 4 && xhr.status == "200") {
 				console.log(responseServer);
 				//var modalRegistro = document.getElementById('sucessRegister');
 				//modalRegistro.style.display = 'block';
@@ -253,7 +196,7 @@ function sendMessage(e) {
 			}
 		}
 
-		request.send(json);
+		xhr.send(json);
 
 
 	}else {
@@ -269,6 +212,7 @@ function sendMessage(e) {
 			var boolean = true;
 
 			setInputCareer.map((x,item) => {
+								
 				boolean = boolean && !(x.value.trim() == "");
 			});
 		}else {
@@ -290,11 +234,11 @@ function sendMessage(e) {
 
 function dataSelectCareer() {
 	let request = new XMLHttpRequest();
-	request.open('GET','http://qaintranet.glr.pe/api/term-list?_format=json&vid=careers&options=1&order=asc&order-field=name&random=1', true);
+	request.open('GET','http://qaintranet.glr.pe/api/term-list?_format=json&vid=careers&options=1&order=asc&order-field=name', true);
 	request.onload = function() {
 	if (request.status >= 200 && request.status < 400) {
 	// Success!
-		window.dataCareer = JSON.parse(request.responseText)['data'];
+		window.dataSelectCareer = JSON.parse(request.responseText)['data'];
 		//console.log(dataSelectCareer);
 	} else {
 	// We reached our target server, but it returned an error
@@ -311,11 +255,11 @@ function dataSelectCareer() {
 
 function dataSelectGradesAcademic() {
 	let request = new XMLHttpRequest();
-	request.open('GET','http://qaintranet.glr.pe/api/term-list?_format=json&vid=academic_grades&options=1&order=asc&order-field=name&random=1', true);
+	request.open('GET','http://qaintranet.glr.pe/api/term-list?_format=json&vid=academic_grades&options=1&order=asc&order-field=name', true);
 	request.onload = function() {
 	if (request.status >= 200 && request.status < 400) {
 	// Success!
-		window.dataGradesAcademic = JSON.parse(request.responseText)['data'];
+		window.dataSelectGradesAcademic = JSON.parse(request.responseText)['data'];
 		//console.log(dataSelectGradesAcademic);
 	} else {
 	// We reached our target server, but it returned an error
@@ -331,13 +275,11 @@ function dataSelectGradesAcademic() {
 }
 function dataSelectInstitution() {
 	let request = new XMLHttpRequest();
-	console.log(request.status);
-	request.open('GET','http://qaintranet.glr.pe/api/term-list?_format=json&vid=academic_institutions&options=1&order=asc&order-field=name&random=1', true);
-	console.log(request.status);
+	request.open('GET','http://qaintranet.glr.pe/api/term-list?_format=json&vid=academic_institutions&options=1&order=asc&order-field=name', true);
 	request.onload = function() {
 	if (request.status >= 200 && request.status < 400) {
 	// Success!
-		window.dataInstitution = Array.from(JSON.parse(request.responseText)['data']);
+		window.dataSelectInstitution = Array.from(JSON.parse(request.responseText)['data']);
 		//console.log(dataSelectInstitution);
 	} else {
 	// We reached our target server, but it returned an error
@@ -352,15 +294,11 @@ function dataSelectInstitution() {
 	request.send();
 }
 
-function createElementSelect(selectInstitucion, dataSelect, name) {
+function createElementSelect(selectInstitucion, dataSelect) {
 		let elementParentSelect = document.createElement('select');
 			elementParentSelect.setAttribute('class', 'information-input');
-			elementParentSelect.setAttribute('name', name);
-			elementParentSelect.setAttribute('id', name);
-
-		let elementOptionText = document.createElement('option');
-			elementOptionText.setAttribute('value', '0');
-
+			elementParentSelect.setAttribute('name', 'por definir');
+			elementParentSelect.setAttribute('id', 'por definir');
 
 			for ( let x = 0; x < dataSelect.length; x++) {
 				let option = document.createElement('option'),
@@ -370,7 +308,7 @@ function createElementSelect(selectInstitucion, dataSelect, name) {
 					option.appendChild(textOption);
 
 					elementParentSelect.appendChild(option);
-					//console.log(option);
+					console.log(option);
 			}
 			selectInstitucion.appendChild(elementParentSelect);
 }

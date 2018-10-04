@@ -2292,3 +2292,11 @@ menu {
 .input-item-information .information-input.ready {
   border: 2px solid green;
 }
+
+select {
+  background: white;
+}
+
+select:focus {
+  outline: none;
+}
