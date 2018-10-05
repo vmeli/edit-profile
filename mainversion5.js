@@ -1,4 +1,3 @@
-
 // SCRIPT APPEAR ELEMENT BLOQUE ACADEMIC
 let btnAppearElement = document.getElementById("appearElement");
 
@@ -10,8 +9,7 @@ dataSelectInstitution();
 
 var key = 0;
 
-function createElement(e) {
-	e.stopPropagation();
+function createElement() {
 	var wrappeElement = document.getElementById('information-body-academic'),
 		countElementInformationCareer = wrappeElement.querySelectorAll('.information-career').length,
 		getNumberLastElement = countElementInformationCareer +1,
@@ -61,7 +59,7 @@ function inputItemInformation(NumberElement,name,text) {
 				'<label class="information-label" for="'+ name + '-'+ NumberElement + '">'+
 					text +
 				'</label>'+
-				'<input class="information-input" type="text" maxlength="4" placeholder="'+ text + '" name="' + name + '-' + NumberElement + '" id="' + name + '-' + NumberElement + '">' +
+				'<input class="information-input" type="text" placeholder="'+ text + '" name="' + name + '-' + NumberElement + '" id="' + name + '-' + NumberElement + '">' +
 			'</div>'	
 }
 
@@ -75,7 +73,7 @@ var	pass             = document.getElementById('pass'),
     userAddress      = document.getElementById('user_address'),
 	companyPhone     = document.getElementById('company_phone'),
     userBody         = document.getElementById('user_body'),
-    uid              = document.getElementById('uid');
+    uid              = document.getElementById('uid').
     sid              = document.getElementById('sid');
 
 var wrappeElement = document.getElementById('information-body-academic'),
@@ -172,7 +170,6 @@ btnSubmit.addEventListener('click', sendMessage);
 function sendMessage(e) {
 
 	e.preventDefault();
-	e.stopPropagation();
 	var isCorrectInputStaticDatos  = validateEmptyInputStatic();
 	var isCorrectInputDinamicDatos = validateEmptyInputDinamic();
 	var isCorrectInputYearGraduate = validateEmptyInputYearGraduate();
@@ -184,53 +181,61 @@ function sendMessage(e) {
 	var lengthInputCareerStatic    = inputCareerStatic.length; 
 	var lengthInputCareerDinamic   = inputCareerDinamic.length;
 
-	console.log("validación de contraseñas", isCorrectMatchPass);
+	console.log(lengthInputCareerStatic, lengthInputCareerDinamic);
+
+	console.log(data, isCorrectInputStaticDatos, isCorrectInputYearGraduate, isCorrectMatchPass);
 
 	if (isCorrectMatchPass === true) {
 
 	console.log("preparando para el envío");
 		// ESTRUCTURA DE LA DATA A ENVIAR
-		var enviando = new FormData();
-		enviando.append("uid", uid.value.trim());
-		enviando.append("sid", sid.value.trim());
-		enviando.append("pass", pass.value.trim());
-		enviando.append("pass_confirmation", pass_confirmation.value.trim());
-		enviando.append("user_email", userEmail.value.trim());
-		enviando.append("user_cell_phone", userCellPhone.value.trim());
-		enviando.append("user_address", userAddress.value.trim());
-		enviando.append("company_phone", companyPhone.value.trim());
-		enviando.append("user_body", userBody.value.trim());
+		var data               = {};	
+		data.uid               = uid.value.trim();
+		data.sid               = sid.value.trim();
+		data.pass              = pass.value.trim();
+		data.pass_confirmation = passConfirmation.value.trim();
+		data.user_email    = userEmail.value.trim();
+		data.user_cell_phone   = userCellPhone.value.trim();
+		data.user_address      = userAddress.value.trim();
+		data.company_phone     = companyPhone.value.trim();
+		data.user_body         = userBody.value.trim();
 
-		//if(lengthInputCareerStatic || lengthInputCareerDinamic) {
-		//	data.data_academic = {};
-		//}		
+		if(lengthInputCareerStatic || lengthInputCareerDinamic) {
+			data.data_academic = {};
+		}		
 
 		if(lengthInputCareerStatic) {
 			inputCareerStatic.map(function(x,item) {
 				var keyCareer = x.getAttribute("data-key");
-								
-				enviando.append('data_academic['+keyCareer+'][institution]', x.querySelector('[name^="institucion"]').value);
-				enviando.append('data_academic['+keyCareer+'][grade]', x.querySelector('[name^="grado"]').value);
-				enviando.append('data_academic['+keyCareer+'][career]', x.querySelector('[name^="carrera"]').value);
-				enviando.append('data_academic['+keyCareer+'][senior_year]', x.querySelector('[name^="anio"]').value);
-				
+				data.data_academic[keyCareer] = [];
+				data.data_academic[keyCareer]["institution"] = x.querySelector('[name^="institucion"]').value;
+				data.data_academic[keyCareer]["grade"]       = x.querySelector('[name^="grado"]').value;
+				data.data_academic[keyCareer]["career"]      = x.querySelector('[name^="carrera"]').value;
+				data.data_academic[keyCareer]["senior_year"] = x.querySelector('[name^="anio"]').value;
+				console.log(data);
 			});
 		}
 
 		if(lengthInputCareerDinamic) {
 			inputCareerDinamic.map(function(x,item) {
 				var keyCareer = x.getAttribute("data-key");
-								
-				enviando.append('data_academic['+keyCareer+'][institution]', x.querySelector('[name^="institucion"]').value);
-				enviando.append('data_academic['+keyCareer+'][grade]', x.querySelector('[name^="grado"]').value);
-				enviando.append('data_academic['+keyCareer+'][career]', x.querySelector('[name^="carrera"]').value);
-				enviando.append('data_academic['+keyCareer+'][senior_year]', x.querySelector('[name^="anio"]').value);
+				data.data_academic[keyCareer] = [];
+				data.data_academic[keyCareer]["institution"] = x.querySelector('[name^="institucion"]').value;
+				data.data_academic[keyCareer]["grade"]       = x.querySelector('[name^="grado"]').value;
+				data.data_academic[keyCareer]["career"]      = x.querySelector('[name^="carrera"]').value;
+				data.data_academic[keyCareer]["senior_year"] = x.querySelector('[name^="anio"]').value;
+				console.log(data);
 			});
 		}
 
+
+		var json               = JSON.stringify(data);
+
+		console.log(data);
+
 		var request = new XMLHttpRequest();
 		request.open('POST', 'http://qaintranet.glr.pe/api/user/update', true);
-		//request.setRequestHeader('Content-type', 'application/x-www-form-urlencoded; charset=utf-8');
+		request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
 		//request.setRequestHeader('X-CSRF-Token', "valor del token{{ csrf_field() }}	");
 
 		request.onload = function () {
@@ -248,8 +253,8 @@ function sendMessage(e) {
 			}
 		}
 
-		request.send(enviando);
-		request = null;
+		request.send(json);
+
 
 	}else {
 		console.log("no mandar data");
@@ -275,7 +280,7 @@ function sendMessage(e) {
 
 	function MatchValue() {
 		console.log(pass.value , passConfirmation.value);
-		if(pass.value.trim() === passConfirmation.value.trim()) {
+		if((pass.value.trim() !="") && (passConfirmation.value.trim() !="") && (pass.value === passConfirmation.value)) {
 			return true;
 		}
 		return false;
@@ -365,7 +370,50 @@ function createElementSelect(selectInstitucion, dataSelect, name) {
 					option.appendChild(textOption);
 
 					elementParentSelect.appendChild(option);
+					//console.log(option);
 			}
-			
 			selectInstitucion.appendChild(elementParentSelect);
 }
+
+
+
+/*function createElementSelect(selectInstitucion, dataSelect) {
+		let elementParentSelect = document.createElement('select');
+			elementParentSelect.setAttribute('class', 'information-input');
+			elementParentSelect.setAttribute('name', 'por definir');
+			elementParentSelect.setAttribute('id', 'por definir');
+
+			dataSelect.map((x) => {
+				let option = document.createElement('option'),
+					textOption = document.createTextNode(x['name']);
+
+					option.setAttribute('value', x['tid']);
+					option.appendChild(textOption);
+
+					elementParentSelect.appendChild(option);
+					console.log(option);
+			});
+			selectInstitucion.appendChild(elementParentSelect);
+}
+function createElementSelect(selectInstitucion, dataSelect) {
+	var elementParentSelect = document.createElement('select');
+	elementParentSelect.setAttribute('class', 'information-input');
+	elementParentSelect.setAttribute('name', 'por definir');
+	elementParentSelect.setAttribute('id', 'por definir');
+
+	dataSelect.forEach(function (x) {
+		var option = document.createElement('option'),
+		    textOption = document.createTextNode(x['name']);
+
+		option.setAttribute('value', x['tid']);
+		option.appendChild(textOption);
+
+		elementParentSelect.appendChild(option);
+		console.log(option);
+	});
+	selectInstitucion.appendChild(elementParentSelect);
+}
+
+
+
+*/
