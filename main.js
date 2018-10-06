@@ -235,7 +235,7 @@ function sendMessage(e) {
 
 		request.onload = function () {
 			//console.log('entro al XMLHttpRequest');
-			var responseServer = JSON.parse(request.responseText);
+			//var responseServer = JSON.parse(request.responseText);
 			if (request.readyState == 4 && request.status == "200") {
 				console.log(responseServer);
 				//var modalRegistro = document.getElementById('sucessRegister');
