@@ -24,7 +24,8 @@ function createElement(e) {
 		elementLineHorizontal = document.createElement('span');
 		elementLineHorizontal.setAttribute('class', 'hr');
 
-		elementParent.innerHTML = 	inputSelectItemInformation('n'+key,'institucion', 'Institución') +
+		elementParent.innerHTML = 	'<span class="deleted-information-career" id="deleted-information-career-n' + key + '">X</span>' +
+									inputSelectItemInformation('n'+key,'institucion', 'Institución') +
 									inputSelectItemInformation('n'+key,'grado', 'Grado') +
 									inputSelectItemInformation('n'+key,'carrera', 'Carrera') +
 									inputItemInformation('n'+key,'anio', 'Año de Egreso');
@@ -36,14 +37,15 @@ function createElement(e) {
 		elementParent.querySelector("[name^='anio']").oninput = validateInputsNumber;
 		
 		var wrapperElementInformationCareer = document.getElementById('information-career-'+'n'+ key);
-		var selectInstitution = wrapperElementInformationCareer.querySelector('#institucion-' + 'n'+ key);
-		var selectGradeAcademic = wrapperElementInformationCareer.querySelector('#grado-'+ 'n'+ key);
-		var selectCareer = wrapperElementInformationCareer.querySelector('#carrera-' + 'n'+ key);
-
+		var selectInstitution               = wrapperElementInformationCareer.querySelector('#institucion-' + 'n'+ key);
+		var selectGradeAcademic             = wrapperElementInformationCareer.querySelector('#grado-'+ 'n'+ key);
+		var selectCareer                    = wrapperElementInformationCareer.querySelector('#carrera-' + 'n'+ key);
+		var deletedInformation              = document.getElementById('deleted-information-career-n'+ key);
 
 		createElementSelect(selectInstitution, dataInstitution, 'institucion-' + key);
 		createElementSelect(selectGradeAcademic, dataGradesAcademic, 'grado-' + key);
 		createElementSelect(selectCareer, dataCareer, 'carrera-' + key);	
+		deletedInformation.addEventListener("click", deletedInformationCareer);
 }
 
 function inputSelectItemInformation(NumberElement,name,text) {
@@ -65,6 +67,13 @@ function inputItemInformation(NumberElement,name,text) {
 			'</div>'	
 }
 
+function deletedInformationCareer(e) {
+	
+	if(e.target.parentNode.nextElementSibling.getAttribute('class') == 'hr') {
+		e.target.parentNode.nextElementSibling.remove()
+	}
+	e.target.parentNode.remove();
+}
 
 // VALIDATION FORM
 

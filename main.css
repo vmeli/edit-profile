@@ -2300,3 +2300,29 @@ select {
 select:focus {
   outline: none;
 }
+
+.information-career-n {
+  position: relative;
+  animation-name: opacity;
+    animation-duration: 1s;
+}
+@keyframes opacity {  
+  0% { 
+    opacity: 0; 
+  }
+    50% { 
+      opacity: 0.5; 
+    }
+    100% { 
+      opacity: 1; 
+    }
+}
+
+.deleted-information-career {
+  position: absolute;
+  right: 0;
+  border: none;
+  font-size: 13px;
+  color: #FFF;
+  background: #bc0533;
+}
